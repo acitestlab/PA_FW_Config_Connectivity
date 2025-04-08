@@ -1,0 +1,12 @@
+# palo_alto_config.csv
+policy_name,source_zone,destination_zone,source_address,destination_address,application,service,action
+policy1,zone1,zone2,192.168.1.0/24,192.168.2.0/24,app1,service1,allow
+policy2,zone1,zone3,192.168.1.0/24,192.168.3.0/24,app2,service2,deny
+policy3,zone2,zone3,192.168.2.0/24,192.168.3.0/24,app3,service3,allow
+policy4,zone2,zone4,192.168.2.0/24,192.168.4.0/24,app4,service4,deny
+policy5,zone3,zone4,192.168.3.0/24,192.168.4.0/24,app5,service5,allow
+policy6,zone3,zone1,192.168.3.0/24,192.168.1.0/24,app6,service6,deny
+policy7,zone4,zone1,192.168.4.0/24,192.168.1.0/24,app7,service7,allow
+policy8,zone4,zone2,192.168.4.0/24,192.168.2.0/24,app8,service8,deny
+policy9,zone1,zone4,192.168.1.0/24,192.168.4.0/24,app9,service9,allow
+policy10,zone2,zone1,192.168.2.0/24,192.168.1.0/24,app10,service10,deny

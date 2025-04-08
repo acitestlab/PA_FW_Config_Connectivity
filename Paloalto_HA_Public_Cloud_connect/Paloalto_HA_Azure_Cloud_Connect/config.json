@@ -1,0 +1,9 @@
+{
+    "firewall_ip": "your-firewall-ip",
+    "api_key": "your-api-key",
+    "peer_ip": "peer-ip-address",
+    "pre_shared_key": "your-pre-shared-key",
+    "monitor_ip": "monitor-ip",
+    "ha_peer_ip": "ha-peer-ip",
+    "ha_pre_shared_key": "ha-pre-shared-key"
+  }

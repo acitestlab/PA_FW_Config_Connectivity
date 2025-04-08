@@ -1,0 +1,5 @@
+hostname = "your-firewall-hostname"
+username = "your-username"
+password = "your-password"
+ssl_certificate = "your-ssl-certificate"
+ssl_private_key = "your-ssl-private-key"

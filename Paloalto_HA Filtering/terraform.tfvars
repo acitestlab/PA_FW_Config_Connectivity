@@ -1,0 +1,5 @@
+hostname = "192.168.1.1"
+username = "admin"
+password = "your_password"
+vsys     = "vsys1"
+rule_name = "Allow-HTTP"

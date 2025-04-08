@@ -1,0 +1,7 @@
+hostname = "your-firewall-hostname"
+username = "your-username"
+password = "your-password"
+dmz_ip = "192.168.1.1"
+internal_ip = "192.168.2.1"
+external_ip = "192.168.3.1"
+wan_ip = "192.168.4.1"

@@ -1,0 +1,18 @@
+{
+  "firewall_name": "PaloAltoHA",
+  "region": "us-west-1",
+  "availability_zones": ["us-west-1a", "us-west-1b"],
+  "management_ip": "192.168.1.1",
+  "peer_management_ip": "192.168.1.2",
+  "admin_username": "admin",
+  "admin_password": "your_password_here",
+  "license_key": "your_license_key_here",
+  "vpc_id": "vpc-12345678",
+  "subnet_id": "subnet-12345678",
+  "instance_type": "c5.large",
+  "security_group_ids": ["sg-12345678"],
+  "tags": {
+    "Environment": "Production",
+    "Project": "PaloAltoHA"
+  }
+}

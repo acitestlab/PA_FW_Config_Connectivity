@@ -1,0 +1,7 @@
+paloalto_hostname = "192.168.1.100"
+paloalto_username = "admin"
+paloalto_password = "Shell@123"
+firewall_hostname = "PA-IDT_Test-01"
+management_ip = "192.168.1.100"
+management_netmask = "255.255.255.0"
+management_gateway = "192.168.1.1"

@@ -1,34 +1,30 @@
-variable "admin_username" {}
-variable "admin_password" {}
-variable "location" {}
-
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "biztalk_rg" {
   name     = "BizTalkRG"
-  location = var.location
+  location = var.biztalk_location
 }
 
-resource "azurerm_virtual_network" "vnet" {
+resource "azurerm_virtual_network" "biztalk_vnet" {
   name                = "BizTalkVNet"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
 }
 
-resource "azurerm_subnet" "subnet" {
+resource "azurerm_subnet" "biztalk_subnet" {
   name                 = "BizTalkSubnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
+  resource_group_name  = azurerm_resource_group.biztalk_rg.name
+  virtual_network_name = azurerm_virtual_network.biztalk_vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_network_security_group" "nsg" {
+resource "azurerm_network_security_group" "biztalk_nsg" {
   name                = "BizTalkNSG"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
 
   security_rule {
     name                       = "AllowRDP"
@@ -91,59 +87,59 @@ resource "azurerm_network_security_group" "nsg" {
   }
 }
 
-resource "azurerm_network_interface" "nic_dc" {
+resource "azurerm_network_interface" "biztalk_nic_dc" {
   name                = "nic-dc"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
+    subnet_id                     = azurerm_subnet.biztalk_subnet.id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.4"
   }
 
-  network_security_group_id = azurerm_network_security_group.nsg.id
+  network_security_group_id = azurerm_network_security_group.biztalk_nsg.id
 }
 
-resource "azurerm_network_interface" "nic_sql" {
+resource "azurerm_network_interface" "biztalk_nic_sql" {
   name                = "nic-sql"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
+    subnet_id                     = azurerm_subnet.biztalk_subnet.id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.5"
   }
 
-  network_security_group_id = azurerm_network_security_group.nsg.id
+  network_security_group_id = azurerm_network_security_group.biztalk_nsg.id
 }
 
-resource "azurerm_network_interface" "nic_biztalk" {
+resource "azurerm_network_interface" "biztalk_nic_app" {
   name                = "nic-biztalk"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
+    subnet_id                     = azurerm_subnet.biztalk_subnet.id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.6"
   }
 
-  network_security_group_id = azurerm_network_security_group.nsg.id
+  network_security_group_id = azurerm_network_security_group.biztalk_nsg.id
 }
 
-resource "azurerm_windows_virtual_machine" "dc" {
+resource "azurerm_windows_virtual_machine" "biztalk_dc" {
   name                = "BizTalkDC"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
   size                = "Standard_B2ms"
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
-  network_interface_ids = [azurerm_network_interface.nic_dc.id]
+  admin_username      = var.biztalk_admin_username
+  admin_password      = var.biztalk_admin_password
+  network_interface_ids = [azurerm_network_interface.biztalk_nic_dc.id]
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
@@ -156,14 +152,14 @@ resource "azurerm_windows_virtual_machine" "dc" {
   }
 }
 
-resource "azurerm_windows_virtual_machine" "sql" {
+resource "azurerm_windows_virtual_machine" "biztalk_sql" {
   name                = "BizTalkSQL"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
   size                = "Standard_B4ms"
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
-  network_interface_ids = [azurerm_network_interface.nic_sql.id]
+  admin_username      = var.biztalk_admin_username
+  admin_password      = var.biztalk_admin_password
+  network_interface_ids = [azurerm_network_interface.biztalk_nic_sql.id]
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
@@ -176,14 +172,14 @@ resource "azurerm_windows_virtual_machine" "sql" {
   }
 }
 
-resource "azurerm_windows_virtual_machine" "biztalk" {
+resource "azurerm_windows_virtual_machine" "biztalk_app" {
   name                = "BizTalkApp"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.biztalk_rg.name
+  location            = azurerm_resource_group.biztalk_rg.location
   size                = "Standard_B4ms"
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
-  network_interface_ids = [azurerm_network_interface.nic_biztalk.id]
+  admin_username      = var.biztalk_admin_username
+  admin_password      = var.biztalk_admin_password
+  network_interface_ids = [azurerm_network_interface.biztalk_nic_app.id]
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"

@@ -1,3 +1,3 @@
-admin_username = "azureuser"
-admin_password = "P@ssw0rd1234!"
-location       = "East US"
+biztalk_admin_username = "azureibrozini"
+biztalk_admin_password = "Micholad062025!"
+biztalk_location       = "East US"

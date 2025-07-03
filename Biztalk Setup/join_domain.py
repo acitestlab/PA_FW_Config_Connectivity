@@ -5,8 +5,8 @@ from azure.mgmt.compute import ComputeManagementClient
 subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID")
 resource_group = "BizTalkRG"
 domain = "biztalk.local"
-domain_user = "biztalkadmin"
-domain_pass = "YourDomainAdminPassword"
+domain_user = "azureibrozini"
+domain_pass = "Micholad062025!"
 
 credential = DefaultAzureCredential()
 compute_client = ComputeManagementClient(credential, subscription_id)

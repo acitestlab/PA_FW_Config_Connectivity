@@ -13,3 +13,8 @@ variable "biztalk_location" {
   description = "Azure region for BizTalk deployment"
   type        = string
 }
+
+variable "biztalk_subscription_id" {
+  description = "Azure Subscription ID for BizTalk deployment"
+  type        = string
+}
